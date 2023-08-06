@@ -69,7 +69,7 @@ const Conversation = ({
 
     setUseSearch(useSearch);
 
-    // console.log(selectedCharacter, selectedModel, selectedDevice, isCallView, preferredLanguage, useSearch);
+    console.log(selectedCharacter, selectedModel, selectedDevice, isCallView, preferredLanguage, useSearch);
     if (!isConnecting.current) {
       const tryConnect = async () => {
         try {
@@ -91,7 +91,7 @@ const Conversation = ({
 
     // Clean up event listener on component unmount
     return () => window.removeEventListener("beforeunload", handleUnload);
-  }, []);
+  }, [isConnecting, isConnected]);
 
   if (!isConnecting.current) {
     return null; 

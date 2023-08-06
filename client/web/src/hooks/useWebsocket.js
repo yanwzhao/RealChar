@@ -38,7 +38,7 @@ const useWebsocket = (token, onOpen, onMessage, selectedModel, preferredLanguage
             var newHost = hostname + ':' + newPort;
 
             var language = languageCode[preferredLanguage];
-
+            console.log("character: ", selectedCharacter);
             const ws_path = ws_scheme + '://' + newHost + `/ws/${sessionId}?llm_model=${selectedModel}&platform=web&use_search=${useSearch}&character_id=${selectedCharacter.character_id}&language=${language}&token=${token}`;
 
             socketRef.current = new WebSocket(ws_path);
@@ -53,7 +53,7 @@ const useWebsocket = (token, onOpen, onMessage, selectedModel, preferredLanguage
                 console.log("Socket closed"); 
             };
         }
-    }, [onOpen, onMessage]);
+    }, [onOpen, onMessage, selectedCharacter]);
 
     // send message to server
     const send = (data) => {
