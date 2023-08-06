@@ -226,7 +226,6 @@ const App = () => {
               <Conversation 
                 isConnecting={isConnecting}
                 isConnected={isConnected}
-                isCallView={isCallView} 
                 isRecording={isRecording} 
                 isPlaying={isPlaying} 
                 audioPlayer={audioPlayer} 
@@ -242,14 +241,16 @@ const App = () => {
                 setTextAreaValue={setTextAreaValue} 
                 messageInput={messageInput} 
                 setMessageInput={setMessageInput} 
-                useSearch={useSearch} 
                 setUseSearch={setUseSearch} 
                 callActive={callActive} 
                 startRecording={startRecording} 
                 stopRecording={stopRecording} 
-                preferredLanguage={preferredLanguage} 
                 setPreferredLanguage={setPreferredLanguage}
                 selectedCharacter={selectedCharacter}
+                setSelectedCharacter={setSelectedCharacter}
+                setSelectedModel={setSelectedModel}
+                setSelectedDevice={setSelectedDevice}
+                connect={connect}
               />} 
             />
         </Routes>

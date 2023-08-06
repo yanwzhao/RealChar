@@ -7,16 +7,17 @@
 import React, {useEffect} from 'react';
 import CallView from '../components/CallView';
 import TextView from '../components/TextView';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
+import queryString from 'query-string';
 import Avatar from '@mui/material/Avatar';
 import AvatarView from '../components/AvatarView';
+import lz from 'lz-string';
 
 // TODO: user can access this page only if isConnected.current
 
 const Conversation = ({
   isConnecting,
   isConnected,
-  isCallView,
   isRecording,
   isPlaying,
   audioPlayer,
@@ -32,20 +33,54 @@ const Conversation = ({
   setTextAreaValue,
   messageInput,
   setMessageInput,
-  useSearch,
   setUseSearch,
   callActive,
   startRecording,
   stopRecording,
-  preferredLanguage,
   setPreferredLanguage,
   selectedCharacter,
+  setSelectedCharacter,
+  setSelectedModel,
+  setSelectedDevice,
+  connect,
 }) => {
   const navigate = useNavigate();
+  const { search } = useLocation();
+  const { character = "", selectedModel = "", selectedDevice = "", isCallViewVal = "", preferredLanguage = "", useSearchVal = "" } = queryString.parse(search); 
+  const isCallView = isCallViewVal === "true";
+  const useSearch = useSearchVal === "true";
 
   useEffect(() => {
-    if (!isConnecting.current) {
+    // console.log("conversation page")
+    if (character === "" || selectedModel === "" || selectedDevice === "" || isCallView === "" || preferredLanguage === "" || useSearch === "") {
       navigate('/');
+    }
+    // console.log("reached here")
+    const selectedCharacter = JSON.parse(lz.decompressFromEncodedURIComponent(character));
+    setSelectedCharacter(selectedCharacter);
+
+    setSelectedModel(selectedModel);
+
+    setSelectedDevice(selectedDevice);
+
+    setIsCallView(isCallView);
+
+    setPreferredLanguage(preferredLanguage);
+
+    setUseSearch(useSearch);
+
+    // console.log(selectedCharacter, selectedModel, selectedDevice, isCallView, preferredLanguage, useSearch);
+    if (!isConnecting.current) {
+      const tryConnect = async () => {
+        try {
+          console.log("trying to connect");
+          await connect();
+          console.log("connected");
+        } catch (error) {
+          console.error('Failed fetching data:', error);
+        }
+      };
+      tryConnect();
     }
 
     const handleUnload = (event) => {
@@ -56,7 +91,7 @@ const Conversation = ({
 
     // Clean up event listener on component unmount
     return () => window.removeEventListener("beforeunload", handleUnload);
-  }, [isConnecting, navigate]);
+  }, []);
 
   if (!isConnecting.current) {
     return null; 

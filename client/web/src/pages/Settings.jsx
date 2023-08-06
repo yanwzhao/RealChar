@@ -48,8 +48,8 @@ const Settings = ({ setSelectedCharacter, isMobile, preferredLanguage, setPrefer
 
             // TODO(UI): Hide loading animation
         }, 500);
-
-        navigate("/conversation");
+        console.log("/conversation?isCallView=" + (commMethod === "Call") + "&character=" + character + "&preferredLanguage=" + preferredLanguage + "&selectedDevice=" + selectedDevice + "&selectedModel=" + selectedModel + "&useSearch=" + useSearch);
+        navigate("/conversation?isCallViewVal=" + (commMethod === "Call") + "&character=" + character + "&preferredLanguage=" + preferredLanguage + "&selectedDevice=default" + "&selectedModel=" + selectedModel + "&isCallViewVal=" + useSearch);
     }
 
     return (
